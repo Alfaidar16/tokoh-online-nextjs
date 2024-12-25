@@ -21,6 +21,7 @@ const RegisterView = () => {
       fullname: form.fullname.value,
       phone: form.phone.value,
       password: form.password.value,
+      role: "member",
     };
 
     const result = await authServices.registerAccount(data);
