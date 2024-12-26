@@ -7,6 +7,8 @@ import {
   query,
   where,
   addDoc,
+  updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import app from "./init";
 
@@ -15,6 +17,7 @@ const firestore = getFirestore(app);
 export async function retrieveData(collectionName: string) {
   const snapshot = await getDocs(collection(firestore, collectionName));
   const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  console.log(data);
 
   return data;
 }
@@ -51,5 +54,36 @@ export async function addData(
     .catch((e) => {
       callback(false);
       throw new Error("Failed to sign up");
+    });
+}
+
+export async function updateData(
+  collectionName: string,
+  id: string,
+  data: any,
+  callback: Function
+) {
+  const docRef = doc(firestore, collectionName, id);
+  await updateDoc(docRef, data)
+    .then(() => {
+      callback(true);
+    })
+    .catch(() => {
+      callback(false);
+    });
+}
+
+export async function deleteData(
+  collectionName: string,
+  id: string,
+  callback: Function
+) {
+  const docRef = doc(firestore, collectionName, id);
+  await deleteDoc(docRef)
+    .then(() => {
+      callback(true);
+    })
+    .catch(() => {
+      callback(false);
     });
 }
