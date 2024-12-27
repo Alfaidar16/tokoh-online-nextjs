@@ -43,6 +43,7 @@ const LoginView = () => {
   return (
     <AuthLayouts
       title="Login"
+      error={error}
       link="/auth/register"
       linkText=" Belum Punya Akun ? Daftar"
     >
